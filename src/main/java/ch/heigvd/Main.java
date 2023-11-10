@@ -39,6 +39,10 @@ class ServerSubcommand extends HangmanCommand {
 class ClientSubcommand extends HangmanCommand {
     @Override
     public void run() {
-        System.out.println("client on " + portNumber);
+        System.out.println("client on " + portNum);
+        int length = 4;
+        String word = Utils.findWord(Utils.Language.EN, length);
+        System.out.println("Random word with " + length + " letters: " + word);
+
     }
 }
