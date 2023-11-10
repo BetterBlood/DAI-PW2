@@ -17,7 +17,7 @@ public abstract class Hangman implements Runnable {
             System.out.print("Enter a command: ");
             String userInput = scanner.nextLine();
 
-            if (userInput.equalsIgnoreCase("exit")) {
+            if (userInput.equalsIgnoreCase(Utils.EXIT)) {
                 System.out.println("Exiting REPL. Goodbye!");
                 break;
             }
