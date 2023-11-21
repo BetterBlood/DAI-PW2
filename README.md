@@ -45,7 +45,7 @@ Messages sent to the server
 - START [nbLetter] [languageCode] : to start a game with a given number of letter with a specific language, expect FAIL or CORRECT
 - GUESS [letter] : to guess a specific letter, expect CORRECT, WRONG, LOSE or WIN
 - GUESS [word] : to guess a whole word, expect CORRECT, WRONG, LOSE or WIN
-- EXIT : when the client or the server are exited, ensure the other side exits gracefully as well
+- EXIT : when the client is exited, ensure the server exits gracefully as well
 
 Messages sent to the client
 - Receives START :
@@ -56,6 +56,4 @@ Messages sent to the client
   - WRONG : the letter or the word guessed were not used or wrong
   - LOSE [word] : the game is lost and the correct word is revealed
   - WIN [word] : the game is won by the given user and the correct word is revealed
-- Receives EXIT : 
-
-Messages sent in both directions
+- Receives EXIT : is handled by the server. No message is sent back

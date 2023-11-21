@@ -15,21 +15,6 @@ public class Utils {
     private static final String EN_DICTIONARY = "english_words_jlawler.txt";
     private static final String FR_DICTIONARY = "french_words_taknok.txt";
 
-    // Messages sent to the server
-    public static final String CONNECT = "CONNECT";
-    public static final String START = "START";
-    public static final String SUBMIT = "SUBMIT";
-
-    // Messages sent to the client
-    public static final String FAIL = "FAIL";
-    private static final String CORRECT = "CORRECT";
-    public static final String WRONG = "WRONG";
-    public static final String LOSE = "LOSE";
-    public static final String WIN = "WIN";
-
-    // Messages sent in both directions
-    public static final String EXIT = "EXIT";
-
     static {
         dictionaries.put(Language.EN, EN_DICTIONARY);
         dictionaries.put(Language.FR, FR_DICTIONARY);
