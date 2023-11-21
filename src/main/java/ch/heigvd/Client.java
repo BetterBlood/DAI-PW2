@@ -39,9 +39,8 @@ public class Client extends Hangman {
         ) {
             System.out.println("[Client] connected to " + HOST + ":" + portNum);
             Scanner scanner = new Scanner(System.in);
-            boolean gameStart = false;
             String word = "";
-            int nbrLives = LIVES_NBR;
+            int nbrLives = -1;
             System.out.println("[Client] Type Exit to quit");
             while (true) {
                 System.out.print("[Client] Enter a command: ");
@@ -53,8 +52,9 @@ public class Client extends Hangman {
                     continue;
                 }
 
-                if (!gameStart && arguments[0].equalsIgnoreCase(START)) {
+                if (word.isEmpty() && arguments[0].equalsIgnoreCase(START)) {
                     String defaultStart = START + " " + DEFAULT_WORD_LENGTH + " " + DEFAULT_LANGUAGE;
+                    nbrLives = LIVES_NBR;
                     switch (arguments.length) {
                         case 3:
                             if (!isNumeric(arguments[1]) || !isValidLanguage(arguments[2])) {
@@ -75,7 +75,7 @@ public class Client extends Hangman {
                             break;
                     }
 
-                } else if (gameStart && arguments[0].equalsIgnoreCase(SUBMIT) && arguments.length == 2) {
+                } else if (!word.isEmpty() && arguments[0].equalsIgnoreCase(SUBMIT) && arguments.length == 2) {
                     if (!isAlphabetic(arguments[1])) {
                         continue;
                     }
@@ -86,11 +86,12 @@ public class Client extends Hangman {
                     break;
                 } else {
                     // If no matching commands are found, print a help message
-                    System.out.println("[Help]\n" +
-                            "'exit' to quit\n" +
-                            "'start [nbLetters] [EN-FR]' to start a game\n" +
-                            "'submit [letter]' to guess a letter\n" +
-                            "'submit [word]' to guess a word");
+                    System.out.println("""
+                            [Help]
+                            'exit' to quit
+                            'start [nbLetters] [EN-FR]' to start a game
+                            'submit [letter]' to guess a letter
+                            'submit [word]' to guess a word""");
                     continue;
                 }
 
@@ -104,13 +105,13 @@ public class Client extends Hangman {
                 if (answer[0].equalsIgnoreCase(FAIL)) {
                     System.out.println("[Client] server error : could not generate a word with that length, please try another length or another language.");
                 } else if (answer[0].equalsIgnoreCase(CORRECT)) {
-                    word = answer[1];
-                    if (!gameStart) {
-                        gameStart = true;
-                        System.out.println("[Client]\n" + nbrLives + " lives\n" + word);
+                    if (word.isEmpty()) {
+                        System.out.println("[Client]\n" + nbrLives + " lives\n" + answer[1]);
                     } else {
-                        System.out.println("[Client] correct letter ! \n" + nbrLives + " lives\n" + word);
+                        System.out.println("[Client] correct letter ! \n" + nbrLives + " lives\n" + answer[1]);
                     }
+
+                    word = answer[1];
                 } else if (answer[0].equalsIgnoreCase(WRONG)) {
                     System.out.println("[Client] incorrect letter ! \n" + --nbrLives + " lives\n" + word);
                 } else if (answer[0].equalsIgnoreCase(WIN)) {
