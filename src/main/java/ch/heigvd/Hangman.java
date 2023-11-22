@@ -5,29 +5,20 @@ import picocli.CommandLine;
 import java.util.Scanner;
 
 public abstract class Hangman implements Runnable {
+    protected static final int LIVES_NBR = 7;
+
+    // Messages sent to the server
+    protected static final String START = "START";
+    protected static final String SUBMIT = "SUBMIT";
+    protected static final String EXIT = "EXIT";
+
+    // Messages sent to the client
+    protected static final String FAIL = "FAIL";
+    protected static final String CORRECT = "CORRECT";
+    protected static final String WRONG = "WRONG";
+    protected static final String LOSE = "LOSE";
+    protected static final String WIN = "WIN";
+
     @CommandLine.Option(names = {"-p", "--port"}, description = "defines a specific port to use for communication")
     protected int portNum = 12345;
-
-    public void startRepl() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Welcome to the REPL. Enter 'exit' to end.");
-
-        while (true) {
-            System.out.print("Enter a command: ");
-            String userInput = scanner.nextLine();
-
-            if (userInput.equalsIgnoreCase(Utils.EXIT)) {
-                System.out.println("Exiting REPL. Goodbye!");
-                break;
-            }
-
-            // Process the user input (you can replace this with your command processing logic)
-            processReplCommand(userInput);
-        }
-
-        scanner.close();
-    }
-
-    protected abstract void processReplCommand(String command);
 }
