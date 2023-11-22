@@ -43,6 +43,9 @@ public class Server extends Hangman {
 
         @Override
         public void run() {
+            StringBuilder answer = new StringBuilder();
+            int livesNbr = MAX_LIVES_NBR;
+
             try (
                     socket; // This allows to use try-with-resources with the socket
                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
@@ -53,28 +56,103 @@ public class Server extends Hangman {
                 String word = "";
                 while (true) {
                     String[] command = in.readLine().split(" ");
+                    System.out.println("[SERVER] command received : " + command[0]);
                     switch (command[0]) {
-                        case "START":
+                        case START:
+                            if (command.length != 3)
+                            {
+                                out.write(FAIL + " " + PARAM_ERROR + "\n");
+                                out.flush();
+                            }
                             // Generate a word
                             int length = Integer.parseInt(command[1]);
                             String languageCode = command[2];
-                            //TODO handle languageCode to generate word
-                            word = Utils.findWord(Utils.Language.EN, length);
+                            word = Utils.findWord(Utils.Language.valueOf(languageCode), length).toUpperCase();
                             System.out.println("[Server] Random word generated with " + length + " letters: " + word);
 
+                            answer = new StringBuilder();
                             String s = new String(new char[length]).replace('\0', '_');
-                            out.write("CORRECT " + s + "\n");
+                            answer.append(s);
+                            out.write(CORRECT + " " + s + "\n");
                             out.flush();
                             break;
-                        case "SUBMIT":
-                            //TODO check word and reply with correct, wrong, win, lose
-                            out.write("CORRECT _____\n");
-                            out.flush();
+
+                        case GUESS:
+                            if (command.length != 2 || command[1].isEmpty())
+                            {
+                                out.write(FAIL + " " + PARAM_ERROR + "\n");
+                                out.flush();
+                            }
+                            else if (command[1].length() == 1) // guess letter
+                            {
+                                boolean found = false;
+                                for (int i = 0; i < word.length(); ++i)
+                                {
+                                    if (command[1].equals(String.valueOf(word.charAt(i))))
+                                    {
+                                        answer.setCharAt(i,command[1].charAt(0));
+                                        found = true;
+                                    }
+                                }
+                                if (found)
+                                {
+                                    if (answer.toString().equals(word))
+                                    {
+                                        out.write(WIN + " " + word + "\n");
+                                        out.flush();
+                                    }
+                                    else
+                                    {
+                                        out.write(CORRECT + " " + answer + "\n");
+                                        out.flush();
+                                    }
+                                }
+                                else
+                                {
+                                    if (--livesNbr <= 0)
+                                    {
+                                        out.write(LOSE + " " + word + "\n");
+                                        out.flush();
+                                    }
+                                    else
+                                    {
+                                        out.write(WRONG + " " + answer + "\n");
+                                        out.flush();
+                                    }
+                                }
+                            }
+                            else // guess word
+                            {
+                                if (command[1].equals(word))
+                                {
+                                    out.write(WIN + " " + word + "\n");
+                                    out.flush();
+                                }
+                                else
+                                {
+                                    if (--livesNbr <= 0)
+                                    {
+                                        out.write(LOSE + " " + word + "\n");
+                                        out.flush();
+                                    }
+                                    else
+                                    {
+                                        out.write(WRONG + " " + answer + "\n");
+                                        out.flush();
+                                    }
+                                }
+                            }
                             break;
-                        case "EXIT":
-                            System.out.println("[Server] closing connection");
+
+                        case EXIT:
+                            System.out.println("[Server] Client request 'EXIT', closing connection...");
                             socket.close();
                             return;
+
+                        default:
+                            out.write(FAIL + " " + UNKNOWN_COMMAND + "\n");
+                            out.flush();
+                            break;
                     }
                 }
             } catch (IOException e) {
