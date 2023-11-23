@@ -49,11 +49,12 @@ Messages sent to the server
 
 Messages sent to the client
 - Receives START :
-  - FAIL : sent if no word is found corresponding to the number of letter given by START
-  - CORRECT [updatedWord] : sends an updated word. Unknown letters are sent as ```_```
+  - FAIL [reason] : sent if no word is found corresponding to the number of letter given by START
+  - CORRECT [updatedWord] : sends an updated word. Unknown letters are sent as `_`
 - Receives GUESS :
-  - CORRECT : see above
-  - WRONG : the letter or the word guessed were not used or wrong
+  - FAIL [reason]: incorrect parameters
+  - CORRECT [updatedWord]: see above
+  - WRONG [updatedWord] : the letter or the word guessed were not used or wrong
   - LOSE [word] : the game is lost and the correct word is revealed
   - WIN [word] : the game is won by the given user and the correct word is revealed
 - Receives EXIT : is handled by the server. No message is sent back
