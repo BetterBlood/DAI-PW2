@@ -22,6 +22,72 @@ public class Client extends Hangman {
         }
     }
 
+    public static final String[] HANGMAN_PICS = {
+            "  +---+\n" +
+            "  |   |\n" +
+            "      |\n" +
+            "      |\n" +
+            "      |\n" +
+            "      |\n" +
+            "=========",
+
+            "  +---+\n" +
+            "  |   |\n" +
+            "  O   |\n" +
+            "      |\n" +
+            "      |\n" +
+            "      |\n" +
+            "=========",
+
+            "  +---+\n" +
+            "  |   |\n" +
+            "  O   |\n" +
+            "  |   |\n" +
+            "      |\n" +
+            "      |\n" +
+            "=========",
+
+            "  +---+\n" +
+            "  |   |\n" +
+            "  O   |\n" +
+            " /|   |\n" +
+            "      |\n" +
+            "      |\n" +
+            "=========",
+
+            "  +---+\n" +
+            "  |   |\n" +
+            "  O   |\n" +
+            " /|\\  |\n" +
+            "      |\n" +
+            "      |\n" +
+            "=========",
+
+            "  +---+\n" +
+            "  |   |\n" +
+            "  O   |\n" +
+            " /|\\  |\n" +
+            " /    |\n" +
+            "      |\n" +
+            "=========",
+
+            "  +---+\n" +
+            "  |   |\n" +
+            "  O   |\n" +
+            " /|\\  |\n" +
+            " / \\  |\n" +
+            "      |\n" +
+            "=========",
+
+            "  +---+\n" +
+            "  |   |\n" +
+            "  O   |\n" +
+            " |||  |\n" +
+            " | |  |\n" +
+            "      |\n" +
+            "========="
+    };
+
     @Override
     public void run() {
         try (
@@ -108,15 +174,19 @@ public class Client extends Hangman {
                     } else {
                         System.out.println("[Client] correct letter ! \n" + nbrLives + " lives\n" + answer[1]);
                     }
+                    System.out.println(HANGMAN_PICS[MAX_LIVES_NBR - nbrLives]);
                     word = answer[1];
                 } else if (answer[0].equalsIgnoreCase(WRONG)) {
                     System.out.println("[Client] incorrect letter ! \n" + --nbrLives + " lives\n" + word);
+                    System.out.println(HANGMAN_PICS[MAX_LIVES_NBR - nbrLives]);
                 } else if (answer[0].equalsIgnoreCase(WIN)) {
                     System.out.println("[Client] Congratulations ♥_♥ ! The correct word was " + answer[1]);
                 } else if (answer[0].equalsIgnoreCase(LOSE)) {
                     System.out.println("[Client] Game over... X_X The correct word was " + answer[1]);
+                    System.out.println(HANGMAN_PICS[MAX_LIVES_NBR - --nbrLives]);
                 } else {
                     System.out.println("[Client] non supported reply from the server " + answer[0]);
+                    System.out.println(HANGMAN_PICS[MAX_LIVES_NBR - nbrLives]);
                 }
             }
 
