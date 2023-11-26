@@ -66,3 +66,6 @@ puis transformation en ASCII avec un programme fait maison
 
 #### EN
 https://github.com/dwyl/english-words/blob/master/words_alpha.txt
+
+### ASCII ART
+https://gist.githubusercontent.com/chrishorton/8510732aa9a80a03c829b09f12e20d9c/raw/b7feb295b3bdb3a5dd92868b627d5bdd46f4cc76/hangmanwordbank.py
