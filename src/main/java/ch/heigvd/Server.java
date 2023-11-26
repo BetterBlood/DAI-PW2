@@ -73,6 +73,7 @@ public class Server extends Hangman {
                             }
                             // Generate a word
                             int length = Integer.parseInt(command[1]);
+                            livesNbr = MAX_LIVES_NBR;
                             word = Utils.findWord(Utils.Language.valueOf(command[2]), length).toUpperCase();
                             System.out.println("[Server] Random word generated with " + length + " letters: " + word);
 
