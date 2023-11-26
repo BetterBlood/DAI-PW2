@@ -58,3 +58,11 @@ Messages sent to the client
   - LOSE [word] : the game is lost and the correct word is revealed
   - WIN [word] : the game is won by the given user and the correct word is revealed
 - Receives EXIT : is handled by the server. No message is sent back
+
+### Génération de mots
+#### FR
+https://raw.githubusercontent.com/chrplr/openlexicon/master/datasets-info/Liste-de-mots-francais-Gutenberg/liste.de.mots.francais.frgut.txt
+puis transformation en ASCII avec un programme fait maison
+
+#### EN
+https://github.com/dwyl/english-words/blob/master/words_alpha.txt

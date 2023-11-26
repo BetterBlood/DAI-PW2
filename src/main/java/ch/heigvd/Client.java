@@ -13,14 +13,6 @@ public class Client extends Hangman {
     private static final int DEFAULT_WORD_LENGTH = 7;
     private static final String DEFAULT_LANGUAGE = "EN";
 
-    private static boolean isAlphabetic(String s) {
-        return s.matches("[a-zA-Z]+");
-    }
-
-    private static boolean isNumeric(String s) {
-        return s.matches("\\d+");
-    }
-
     private static boolean isValidLanguage(String input) {
         try {
             Utils.Language.valueOf(input.toUpperCase());
@@ -52,24 +44,18 @@ public class Client extends Hangman {
                     continue;
                 }
 
-                if (arguments[0].equalsIgnoreCase(START)) { // TODO : pk IgnoreCase ? (toUpperCase ligne 47)
+                if (arguments[0].equals(START)) {
                     word = "";
                     String defaultStart = START + " " + DEFAULT_WORD_LENGTH + " " + DEFAULT_LANGUAGE;
                     nbrLives = MAX_LIVES_NBR;
                     switch (arguments.length) {
                         case 3:
-                            if (!isNumeric(arguments[1]) || !isValidLanguage(arguments[2])) {
+                            if ((!Utils.isNumeric(arguments[1]) && (Integer.valueOf(arguments[1])) > 0) || !isValidLanguage(arguments[2])) {
                                 command = defaultStart;
                             }
                             // We do nothing if all is fine
                             break;
                         case 2:
-                            if (!isNumeric(arguments[1])) {
-                                command = defaultStart;
-                            } else {
-                                command = START + " " + DEFAULT_LANGUAGE; // TODO : ?????
-                            } //*/
-                            break;
                         case 1:
                             // If an incorrect number of argument are given in argument, those are discarded and default ones are enforced
                             command = defaultStart;
@@ -77,7 +63,7 @@ public class Client extends Hangman {
                     }
 
                 } else if (!word.isEmpty() && arguments[0].equalsIgnoreCase(GUESS) && arguments.length == 2) {
-                    if (!isAlphabetic(arguments[1])) {
+                    if (!Utils.isWord(arguments[1])) {
                         continue;
                     }
                 } else if (arguments[0].equalsIgnoreCase(EXIT)) {

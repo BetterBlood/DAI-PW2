@@ -12,12 +12,24 @@ public class Utils {
     }
 
     private static final HashMap<Language, String> dictionaries = new HashMap<>();
-    private static final String EN_DICTIONARY = "english_words_jlawler.txt";
-    private static final String FR_DICTIONARY = "french_words_taknok.txt";
+    private static final String EN_DICTIONARY = "english_words_dwyl.txt";
+    private static final String FR_DICTIONARY = "french_ascii_chrplr.txt"; // french_words_taknok
 
     static {
         dictionaries.put(Language.EN, EN_DICTIONARY);
         dictionaries.put(Language.FR, FR_DICTIONARY);
+    }
+
+    protected static boolean isAlphabetic(String s) {
+        return s.matches("[a-zA-Z]+");
+    }
+
+    protected static boolean isWord(String s) {
+        return s.matches("[a-zA-Z-]+");
+    }
+
+    protected static boolean isNumeric(String s) {
+        return s.matches("\\d+");
     }
 
     public static String findWord(Language language, int numberOfLetters) {

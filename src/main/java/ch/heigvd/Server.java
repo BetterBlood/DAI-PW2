@@ -63,17 +63,33 @@ public class Server extends Hangman {
                             {
                                 out.write(FAIL + " " + PARAM_ERROR + "\n");
                                 out.flush();
+                                break;
+                            }
+                            else if (!Utils.isNumeric(command[1]) || (Integer.parseInt(command[1])) <= 0)
+                            {
+                                out.write(FAIL + " " + PARAM_ERROR + "\n");
+                                out.flush();
+                                break;
                             }
                             // Generate a word
                             int length = Integer.parseInt(command[1]);
-                            String languageCode = command[2];
-                            word = Utils.findWord(Utils.Language.valueOf(languageCode), length).toUpperCase();
+                            livesNbr = MAX_LIVES_NBR;
+                            word = Utils.findWord(Utils.Language.valueOf(command[2]), length).toUpperCase();
                             System.out.println("[Server] Random word generated with " + length + " letters: " + word);
 
                             answer = new StringBuilder();
-                            String s = new String(new char[length]).replace('\0', '_');
-                            answer.append(s);
-                            out.write(CORRECT + " " + s + "\n");
+                            for (int i = 0; i < length; ++i)
+                            {
+                                if (!Character.isAlphabetic(word.charAt(i)))
+                                {// remplace les charactère non alphabétique dans le mots envoyé au client
+                                    answer.append(word.charAt(i));
+                                }
+                                else
+                                { // masque les charactères alphabetics
+                                    answer.append('_');
+                                }
+                            }
+                            out.write(CORRECT + " " + answer + "\n");
                             out.flush();
                             break;
 
@@ -83,7 +99,7 @@ public class Server extends Hangman {
                                 out.write(FAIL + " " + PARAM_ERROR + "\n");
                                 out.flush();
                             }
-                            else if (command[1].length() == 1) // guess letter
+                            else if (command[1].length() == 1 && Character.isAlphabetic(command[1].charAt(0))) // guess letter
                             {
                                 boolean found = false;
                                 for (int i = 0; i < word.length(); ++i)
