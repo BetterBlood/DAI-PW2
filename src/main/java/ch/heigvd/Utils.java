@@ -12,8 +12,8 @@ public class Utils {
     }
 
     private static final HashMap<Language, String> dictionaries = new HashMap<>();
-    private static final String EN_DICTIONARY = "english_words_jlawler.txt";
-    private static final String FR_DICTIONARY = "test2_ascii.txt"; // french_words_taknok
+    private static final String EN_DICTIONARY = "english_words_dwyl.txt";
+    private static final String FR_DICTIONARY = "french_ascii_chrplr.txt"; // french_words_taknok
 
     static {
         dictionaries.put(Language.EN, EN_DICTIONARY);

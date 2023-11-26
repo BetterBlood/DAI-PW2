@@ -10,8 +10,8 @@ import java.nio.charset.StandardCharsets;
 public class TxtToAscii {
 
     public static void main(String[] args) {
-        String inputFilePath = "test2.txt";
-        String outputFilePath = "test2_ascii.txt";
+        String inputFilePath = "french_chrplr.txt";
+        String outputFilePath = "french_ascii_chrplr.txt";
 
         try {
             replaceNonASCIICharacters(inputFilePath, outputFilePath);

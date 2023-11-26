@@ -60,5 +60,9 @@ Messages sent to the client
 - Receives EXIT : is handled by the server. No message is sent back
 
 ### Génération de mots
+#### FR
 https://raw.githubusercontent.com/chrplr/openlexicon/master/datasets-info/Liste-de-mots-francais-Gutenberg/liste.de.mots.francais.frgut.txt
 puis transformation en ASCII avec un programme fait maison
+
+#### EN
+https://github.com/dwyl/english-words/blob/master/words_alpha.txt
