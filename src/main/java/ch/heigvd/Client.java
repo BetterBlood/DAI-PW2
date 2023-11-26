@@ -12,6 +12,12 @@ public class Client extends Hangman {
     private static final String HOST = "localhost";
     private static final int DEFAULT_WORD_LENGTH = 7;
     private static final String DEFAULT_LANGUAGE = "EN";
+    private static final String HELP = """
+            [Help]
+            'exit' to quit
+            'start [nbLetters] [EN-FR]' to start a game
+            'guess [letter]' to guess a letter
+            'guess [word]' to guess a word""";
 
     private static boolean isValidLanguage(String input) {
         try {
@@ -96,10 +102,10 @@ public class Client extends Hangman {
                 BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
         ) {
             System.out.println("[Client] connected to " + HOST + ":" + portNum);
+            System.out.println(HELP);
             Scanner scanner = new Scanner(System.in);
             String word = "";
             int nbrLives = -1;
-            System.out.println("[Client] Type Exit to quit");
             while (true) {
                 System.out.print("[Client] Enter a command: ");
                 String command = scanner.nextLine().toUpperCase();
@@ -139,12 +145,7 @@ public class Client extends Hangman {
                     break;
                 } else {
                     // If no matching commands are found, print a help message
-                    System.out.println("""
-                            [Help]
-                            'exit' to quit
-                            'start [nbLetters] [EN-FR]' to start a game
-                            'guess [letter]' to guess a letter
-                            'guess [word]' to guess a word""");
+                    System.out.println(HELP);
                     continue;
                 }
 
@@ -156,16 +157,11 @@ public class Client extends Hangman {
                 // Handles server answer
                 String[] answer = in.readLine().split(" ");
                 if (answer[0].equalsIgnoreCase(FAIL)) {
-                    if (arguments[0].equalsIgnoreCase(START))
-                    {
+                    if (arguments[0].equalsIgnoreCase(START)) {
                         System.out.println("[Client] server error '" + answer[1] + "': could not generate a word with that length, please try another length or another language.");
-                    }
-                    else if (arguments[0].equalsIgnoreCase(GUESS))
-                    {
+                    } else if (arguments[0].equalsIgnoreCase(GUESS)) {
                         System.out.println("[Client] server error : '" + answer[1] + "'");
-                    }
-                    else
-                    {
+                    } else {
                         System.out.println("[Client] '" + answer[1] + "' non supported command send to server : " + arguments[0]);
                     }
                 } else if (answer[0].equalsIgnoreCase(CORRECT)) {
