@@ -3,6 +3,7 @@ package ch.heigvd;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.*;
 
 public class Utils {
@@ -12,8 +13,9 @@ public class Utils {
     }
 
     private static final HashMap<Language, String> dictionaries = new HashMap<>();
+    private static final String FILES_PATH = "files";
     private static final String EN_DICTIONARY = "english_words_dwyl.txt";
-    private static final String FR_DICTIONARY = "french_ascii_chrplr.txt"; // french_words_taknok
+    private static final String FR_DICTIONARY = "french_ascii_chrplr.txt";
 
     static {
         dictionaries.put(Language.EN, EN_DICTIONARY);
@@ -34,10 +36,10 @@ public class Utils {
 
     public static String findWord(Language language, int numberOfLetters) {
         try {
-            List<String> words = loadWords(dictionaries.get(language));
+            List<String> words = loadWords(FILES_PATH + "\\" + dictionaries.get(language));
             return getRandomWord(words, numberOfLetters);
         } catch (IOException e) {
-            System.err.println("Error while trying to open the dictionary file \n" + e);
+            System.err.println("Error while trying to open the dictionary file\n" + e);
             return "";
         }
     }
