@@ -10,8 +10,8 @@ import java.nio.charset.StandardCharsets;
 public class TxtToAscii {
 
     public static void main(String[] args) {
-        String inputFilePath = "french_chrplr.txt";
-        String outputFilePath = "french_ascii_chrplr.txt";
+        String inputFilePath = "files\\french_chrplr.txt"; // french_chrplr
+        String outputFilePath = "files\\french_ascii_chrplr.txt"; // french_ascii_chrplr
 
         try {
             replaceNonASCIICharacters(inputFilePath, outputFilePath);
@@ -26,10 +26,15 @@ public class TxtToAscii {
              BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath, StandardCharsets.UTF_8))) {
 
             String line;
+            String previous = "";
             while ((line = reader.readLine()) != null) {
                 String modifiedLine = line.replaceAll("[^\\x00-\\x7F]", "");
-                writer.write(modifiedLine);
-                writer.newLine();
+                if (!modifiedLine.equals(previous))
+                {
+                    writer.write(modifiedLine);
+                    writer.newLine();
+                    previous = modifiedLine;
+                }
             }
         }
     }
